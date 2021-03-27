@@ -53,7 +53,34 @@ function Combin_Sub {
     done
     Tmp1=$1$i
     Tmp2=${!Tmp1}
-    CombinAll="${CombinAll}&${Tmp2}"
+    case $# in
+      1)
+        CombinAll="${CombinAll}&${Tmp2}"
+        ;;
+      2)
+        CombinAll="${CombinAll}&${Tmp2}@$2"
+        ;;
+      3)
+        if [ $(($i % 2)) -eq 1 ]; then
+          CombinAll="${CombinAll}&${Tmp2}@$2"
+        else
+          CombinAll="${CombinAll}&${Tmp2}@$3"
+        fi
+        ;;
+      4)
+        case $(($i % 3)) in
+          1)
+            CombinAll="${CombinAll}&${Tmp2}@$2"
+            ;;
+          2)
+            CombinAll="${CombinAll}&${Tmp2}@$3"
+            ;;
+          0)
+            CombinAll="${CombinAll}&${Tmp2}@$4"
+            ;;
+        esac
+        ;;
+    esac
   done
   echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
@@ -61,25 +88,34 @@ function Combin_Sub {
 ## 组合Cookie、Token与互助码
 function Combin_All {
   export JD_COOKIE=$(Combin_Sub Cookie)
-  export FRUITSHARECODES=$(Combin_Sub ForOtherFruit)
-  export PETSHARECODES=$(Combin_Sub ForOtherPet)
-  export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean)
-  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory)
-  export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory)
-  export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz)
-  export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy)
+  #东东农场(jd_fruit.js)
+  export FRUITSHARECODES=$(Combin_Sub ForOtherFruit "96fccb20b0e24deeab6b13457c593e3c@9353ac4c60e84596b9cfc5e3fe515f30@f8128854bccb47c092e35444aa921fa9")
+  #东东萌宠(jd_pet.js)
+  export PETSHARECODES=$(Combin_Sub ForOtherPet "MTAxODcxOTI2NTAwMDAwMDAzMTExODEyMw==@MTE1NDAxNzgwMDAwMDAwMzYxNjUwOTk=@MTEzMzI0OTE0NTAwMDAwMDA0Mzc2ODgwMQ==")
+  #种豆得豆(jd_plantBean.js)
+  export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean "lc7eqgnugkdtwp2qlnvggt2bj7xxnwaayh5essa@uwgpfl3hsfqp3img4qkteo5oicqmyqcumye2jhy@cbagzqdyjhmq32xxyd2qn475eu")
+  #京喜工厂(jd_dreamFactory.js)
+  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory "XOR3A1bQDLLlTvR5WzR3bg==@SmMbqc8FwQ0Zqml8FIJQ7w==@0f51WgzYHydCEESfms3PTg==")
+  #东东工厂(jd_jdfactory.js)
+  export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory "T022u_x3QRke_EnVIR_wnPEIcQCjVWnYaS5kRrbA@T012a1zrlZeWI-dHCjVWnYaS5kRrbA")
+  #京东赚赚(jd_jdzz.js)
+  export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz "Su_x3QRke_EnVIR_wnPEIcQ@S5KkcHkJujwKkXXy9wK9N@Sa1zrlZeWI-dH")
+  #crazyJoy(jd_crazy_joy.js)
+  export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy "JaCqOT9JcivS6ROt9tZf5at9zd5YaBeE@gLa0u-JLETe_b7Y0-JE-oA==")
+  #惊喜农场(jd_jxnc.js)
   export JXNC_SHARECODES=$(Combin_Sub ForOtherJxnc)
-  export JXNCTOKENS=$(Combin_Sub TokenJxnc)
-  export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop)
-  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash)
-  export JDNIAN_SHARECODES=$(Combin_Sub ForOtherNian)
-  export JDNIANPK_SHARECODES=$(Combin_Sub ForOtherNianPk)
-  export JDSXSY_SHARECODES=$(Combin_Sub ForOtherImmortal)
-  export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh)
-  export JSMOBILEFESTIVAL_SHARECODES=$(Combin_Sub ForOtherJdMobileFestival)
-  export JD818_SHARECODES=$(Combin_Sub ForOtherJd818)
-  export JDNY_SHARECODES=$(Combin_Sub ForOtherNY)
-  export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGLOBAL)
+  #口袋书店(jd_bookshop.js)
+  export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop "6b7d17c29d4e4f49a6335ee80157c455@c858f02a64094665ad7552721794ba2b@234f539da0824491befb23529dcdaa59")
+  #签到领现金(jd_cash.js)
+  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Jhozbeu1b-Ek8GvRw3UR0w@eU9YMrDFHKpVjAicnytU@9rqvuWU9sE-2@eBozZO-zYP4j8WY")
+  #闪购盲盒(jd_sgmh.js)
+  export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh "T022u_x3QRke_EnVIR_wnPEIcQCjVQmoaT5kRrbA@T0205KkcHkJujwKkXXy9wK9NCjVQmoaT5kRrbA@T012a1zrlZeWI-dHCjVQmoaT5kRrbA")
+  #惊喜财富岛(jd_cfd.js)
+  export JDCFD_SHARECODES=$(Combin_Sub ForOtherJdcfd "401DA52935EB84F3BDAC92C458E6B530888E1FAA1E33AF78C5315A97994F6CE6")
+  #环球挑战赛(jd_global.js)
+  export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal "OTZwWkM3VnZUZlMxNko4Y1NxWjMwQXBReG1kbVFsV0JFKzNDZEIveXMvVT0=@U3Q4ZUgzalZMQjI5UitibjNNc0hidz09@TkFDcUEzQzZuMnpHYlArOElxVWFSUT09")
+  #城城领现金(jd_city.js)
+  export CITY_SHARECODES=$(Combin_Sub ForOtherCity)
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
